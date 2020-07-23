@@ -9,14 +9,16 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
     namespace.refs = {};
 
     namespace._get_refs = () => {
-        namespace.refs.buzzerRef = firebase.database().ref('buzzer')
-        namespace.refs.adminsRef = firebase.database().ref('admins')
+        namespace.refs.buzzerRef = firebase.database().ref('buzzer');
+        namespace.refs.adminsRef = firebase.database().ref('admins');
     }
 
     namespace.addEventListeners = () => {
-        document.getElementById('btnBuzzer').addEventListener('click', namespace.handleClicks.btnBuzzer)
-        document.getElementById('btnReset').addEventListener('click', namespace.handleClicks.btnReset)
-        document.getElementById('btnAdminLogin').addEventListener('click', namespace.handleClicks.btnAdminLogin)
+        document.getElementById('btnBuzzer').addEventListener('click', namespace.handleClicks.btnBuzzer);
+        document.getElementById('btnReset').addEventListener('click', namespace.handleClicks.btnReset);
+        document.getElementById('btnAdminLogin').addEventListener('click', namespace.handleClicks.btnAdminLogin);
+
+        namespace.refs.buzzerRef.on('value', namespace.onBuzzerChange);
     }
 
     namespace.handleClicks = {
@@ -41,28 +43,18 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
         console.log('activateResetButton');
     }
 
+    namespace.onBuzzerChange = (snapshot) => {
+        const buzzerValue = snapshot.val();
+        console.log(buzzerValue);
+
+    }
+
     namespace.onLoad = () => {
         let app = firebase.app();
-
-        namespace._get_refs();
-        namespace.addEventListeners();
-
         firebase.auth().signInAnonymously().then(() => {
-
-            const uid = firebase.auth().currentUser.uid
-
-            const buzzerRef = namespace.refs.buzzerRef;
-            buzzerRef.on('value', (snapshot) => {
-                const buzzerValue = snapshot.val();
-                console.log(buzzerValue);
-                // if (buzzerValue) {
-                //     document.getElementById('btnBuzzer').style = "";
-                // } else {
-                //     document.getElementById('btnBuzzer').style = "disabled: true";
-                // }
-            });
-
-          });
+            namespace._get_refs();
+            namespace.addEventListeners();
+        });
     }
 
     return namespace;
