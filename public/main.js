@@ -21,9 +21,17 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
         namespace.refs.buzzerRef.on('value', namespace.onBuzzerChange);
     }
 
+    namespace.disableBuzzer = () => {
+        document.getElementById("btnBuzzer").setAttribute('disabled', true)
+    }
+
+    namespace.enableBuzzer = () => {
+        document.getElementById("btnBuzzer").removeAttribute('disabled')
+    }
+
     namespace.handleClicks = {
-        btnBuzzer: () => namespace.refs.buzzerRef.set(true),
-        btnReset: () => namespace.refs.buzzerRef.set(false),
+        btnBuzzer: () => { namespace.refs.buzzerRef.set(true); namespace.disableBuzzer(); },
+        btnReset: () => { namespace.refs.buzzerRef.set(false); namespace.enableBuzzer(); },
         btnAdminLogin: () => namespace.adminLogin()
     }
 
@@ -36,7 +44,7 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
                     namespace.activateResetButton()
                 }
             }).catch(namespace.handleErrors);
-          }).catch(namespace.handleErrors);
+        }).catch(namespace.handleErrors);
     }
 
     namespace.activateResetButton = () => {
