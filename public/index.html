@@ -44,7 +44,7 @@
       text-align: center;
     }
 
-    #btnBuzzer:hover:not(.btnDisabled) {
+    #btnBuzzer:hover:not(:disabled) {
       background: red;
       letter-spacing: 1px;
       -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
@@ -53,8 +53,8 @@
       transition: all 0.4s ease 0s;
     }
 
-    .btnDisabled {
-      opacity: 50%;
+    #btnBuzzer:disabled {
+      opacity: 20%;
       transition: none
     }
 
@@ -131,7 +131,7 @@
       <input type="text" id="txtName"></input>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
-      <button id="btnBuzzer" class="">Buzzer</button>
+      <button id="btnBuzzer">Buzzer</button>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
       <button id="btnReset">Reset Buzzer</button>
