@@ -53,7 +53,7 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
     }
 
     namespace.activateResetButton = () => {
-        console.log('activateResetButton');
+        document.getElementById('btnReset').classList.remove("hiddenButton");
     }
 
     namespace.onBuzzerChange = (snapshot) => {
@@ -67,7 +67,6 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
     }
 
     namespace.onLoad = () => {
-        let app = firebase.app();
         firebase.auth().signInAnonymously().then(() => {
             namespace._get_refs();
             namespace.addEventListeners();
