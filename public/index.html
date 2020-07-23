@@ -14,6 +14,8 @@
     <script defer src="/__/firebase/7.16.1/firebase-storage.js"></script>
     <!-- initialize the SDK after all desired features are loaded -->
     <script defer src="/__/firebase/init.js"></script>
+    
+    <script defer src="./main.js"></script>
 
     <style media="screen">
       body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
@@ -35,10 +37,10 @@
       <h2>Fire-Buzzer</h2>
 
     <div style="display: flex; justify-content: center; align-items: center;">
-      <button id="btnBuzzer" style="display: none;">Buzzer</button>
+      <button id="btnBuzzer">Buzzer</button>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
-      <button id="btnReset">Reset Buzzer</button>
+      <button id="btnReset" style="display: none;">Reset Buzzer</button>
     </div>
     <p id="load">Firebase SDK Loading&hellip;</p>
     <div style="display: flex; justify-content: center; align-items: center;">
@@ -55,42 +57,7 @@
         // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
         //
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          function handleErrors(error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(error);
-          }
-
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-
-          firebase.auth().signInAnonymously().then(() => {
-
-            const uid = firebase.auth().currentUser.uid
-
-            let buzzerRef = firebase.database().ref('buzzer')
-            buzzerRef.on('value', (snapshot) => {
-              console.log(snapshot.val())
-            })
-
-
-            document.getElementById('btnBuzzer').addEventListener('click', () => {
-                buzzerRef.set(true);
-            })
-
-            document.getElementById('btnReset').addEventListener('click', () => {
-              buzzerRef.set(false);
-            })
-
-
-          });
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
+        fire_buzzer.onLoad();
       });
     </script>
   </body>
