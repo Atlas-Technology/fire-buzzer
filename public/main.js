@@ -10,6 +10,7 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
 
     namespace._get_refs = () => {
         namespace.refs.buzzerRef = firebase.database().ref('buzzer')
+        namespace.refs.adminsRef = firebase.database().ref('admins')
     }
 
     namespace.addEventListeners = () => {
@@ -21,17 +22,23 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
     namespace.handleClicks = {
         btnBuzzer: () => namespace.refs.buzzerRef.set(true),
         btnReset: () => namespace.refs.buzzerRef.set(false),
-        btnAdminLogin: () => {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            firebase.auth().signInWithPopup(provider).then(function(result) {
-                // This gives you a Google Access Token. You can use it to access the Google API.
-                var token = result.credential.accessToken;
-                // The signed-in user info.
-                var user = result.user;
-                console.log(token);
-                console.log(user);
-              }).catch(namespace.handleErrors);
-        }
+        btnAdminLogin: () => namespace.adminLogin()
+    }
+
+    namespace.adminLogin = () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth().signInWithPopup(provider).then((response) => {
+            namespace.refs.adminsRef.once('value').then((data) => {
+                const admins = data.val().split(',');
+                if (admins.includes(response.user.email)) {
+                    namespace.activateResetButton()
+                }
+            }).catch(namespace.handleErrors);
+          }).catch(namespace.handleErrors);
+    }
+
+    namespace.activateResetButton = () => {
+        console.log('activateResetButton');
     }
 
     namespace.onLoad = () => {
