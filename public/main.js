@@ -22,8 +22,8 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
     }
 
     namespace.handleClicks = {
-        btnBuzzer: () => namespace.refs.buzzerRef.set(true),
-        btnReset: () => namespace.refs.buzzerRef.set(false),
+        btnBuzzer: () => namespace.onBuzzerClick(),
+        btnReset: () => namespace.refs.buzzerRef.set(''),
         btnAdminLogin: () => namespace.adminLogin()
     }
 
@@ -37,6 +37,11 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
                 }
             }).catch(namespace.handleErrors);
           }).catch(namespace.handleErrors);
+    }
+
+    namespace.onBuzzerClick = () => {
+        const name = document.getElementById('txtName').value || "Unknown";
+        namespace.refs.buzzerRef.set(name);
     }
 
     namespace.activateResetButton = () => {
