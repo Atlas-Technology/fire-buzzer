@@ -44,7 +44,7 @@
       text-align: center;
     }
 
-    #btnBuzzer:hover:not(.btnDisabled) {
+    #btnBuzzer:hover:not(:disabled) {
       background: red;
       letter-spacing: 1px;
       -webkit-box-shadow: 0px 5px 40px -10px rgba(0, 0, 0, 0.57);
@@ -53,8 +53,8 @@
       transition: all 0.4s ease 0s;
     }
 
-    .btnDisabled {
-      opacity: 50%;
+    #btnBuzzer:disabled {
+      opacity: 20%;
       transition: none
     }
 
@@ -108,6 +108,10 @@
       font-size: 13px;
     }
 
+    .hiddenButton {
+      display: none;
+    }
+
     @media (max-width: 600px) {
 
       body,
@@ -127,14 +131,15 @@
 <body>
   <div id="message">
     <h2>Fire-Buzzer</h2>
-
     <div style="display: flex; justify-content: center; align-items: center;">
-      <button id="btnBuzzer" class="">Buzzer</button>
+      <input type="text" id="txtName"></input>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
-      <button id="btnReset">Reset Buzzer</button>
+      <button id="btnBuzzer">Buzzer</button>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
+    <div style="display: flex; justify-content: center; align-items: center;">
+      <button id="btnReset" class="hiddenButton">Reset Buzzer</button>
+    </div>
     <div style="display: flex; justify-content: center; align-items: center;">
       <button id="btnAdminLogin">Admin Login</button>
     </div>
