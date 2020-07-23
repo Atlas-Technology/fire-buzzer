@@ -31,7 +31,7 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
 
     namespace.handleClicks = {
         btnBuzzer: () => namespace.onBuzzerClick(),
-        btnReset: () => { namespace.refs.buzzerRef.set(''); namespace.enableBuzzer(); },
+        btnReset: () => namespace.refs.buzzerRef.set(''),
         btnAdminLogin: () => namespace.adminLogin()
     }
 
@@ -48,7 +48,6 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
     }
 
     namespace.onBuzzerClick = () => {
-        namespace.disableBuzzer()
         const name = document.getElementById('txtName').value || "Unknown";
         namespace.refs.buzzerRef.set(name);
     }
@@ -60,7 +59,11 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
     namespace.onBuzzerChange = (snapshot) => {
         const buzzerValue = snapshot.val();
         console.log(buzzerValue);
-
+        if (buzzerValue) {
+            namespace.disableBuzzer();
+        } else {
+            namespace.enableBuzzer();
+        }
     }
 
     namespace.onLoad = () => {
