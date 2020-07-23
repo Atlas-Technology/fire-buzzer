@@ -17,6 +17,9 @@
   <script defer src="/__/firebase/7.16.1/firebase-storage.js"></script>
   <!-- initialize the SDK after all desired features are loaded -->
   <script defer src="/__/firebase/init.js"></script>
+
+  <script defer src="./main.js"></script>
+
   <style media="screen">
     body {
       background: #ECEFF1;
@@ -146,41 +149,7 @@
         // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
         //
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          function handleErrors(error) {
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            console.log(error);
-          }
-
-          let app = firebase.app();
-          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
-          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
-
-          firebase.auth().signInAnonymously().then(() => {
-
-            const uid = firebase.auth().currentUser.uid
-
-            let buzzerRef = firebase.database().ref('buzzer')
-            buzzerRef.on('value', (snapshot) => {
-              console.log(snapshot.val())
-            })
-
-            document.getElementById('btnBuzzer').addEventListener('click', () => {
-              buzzerRef.set(true);
-            })
-
-            document.getElementById('btnReset').addEventListener('click', () => {
-              buzzerRef.set(false);
-            })
-
-
-          });
-        } catch (e) {
-          console.error(e);
-          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
-        }
+        fire_buzzer.onLoad();
       });
     </script>
 </body>
