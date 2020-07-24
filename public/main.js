@@ -1,12 +1,45 @@
 var fire_buzzer = fire_buzzer || ((namespace) => {
 
+    ///////////////////////////////////////////
+    // Variables
+    ///////////////////////////////////////////
+    namespace.refs = {
+        buzzerRef: null,
+        adminsRef: null
+    };
+    namespace.buzzer = null;
+    namespace.name = null;
+
+
+    ///////////////////////////////////////////
+    // event handlers
+    ///////////////////////////////////////////
+
+    namespace.handleClicks = {
+        btnBuzzer: () => namespace.onBuzzerClick(),
+        btnReset: () => namespace.refs.buzzerRef.set(''),
+        btnAdminLogin: () => namespace.adminLogin()
+    }
+
+    namespace.onBuzzerClick = () => {
+        const name = document.getElementById('txtName').value || "Unknown";
+        namespace.refs.buzzerRef.set(name);
+    }
+
+    namespace.handleNameUpdate = (e) => {
+        namespace.name = e.target.value;
+        namespace.revalidateBuzzerState();
+    }
+
+    ///////////////////////////////////////////
+    // Methods
+    ///////////////////////////////////////////
+
     namespace.handleErrors = (error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(error);
     }
-
-    namespace.refs = {};
 
     namespace._get_refs = () => {
         namespace.refs.buzzerRef = firebase.database().ref('buzzer');
@@ -17,8 +50,16 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
         document.getElementById('btnBuzzer').addEventListener('click', namespace.handleClicks.btnBuzzer);
         document.getElementById('btnReset').addEventListener('click', namespace.handleClicks.btnReset);
         document.getElementById('btnAdminLogin').addEventListener('click', namespace.handleClicks.btnAdminLogin);
+        document.getElementById('txtName').addEventListener('input', namespace.handleNameUpdate);
 
         namespace.refs.buzzerRef.on('value', namespace.onBuzzerChange);
+    }
+
+    namespace.revalidateBuzzerState = () => {
+        if (!namespace.buzzerValue && namespace.name) {
+            return namespace.enableBuzzer();
+        }
+        return namespace.disableBuzzer();
     }
 
     namespace.disableBuzzer = () => {
@@ -27,12 +68,6 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
 
     namespace.enableBuzzer = () => {
         document.getElementById("btnBuzzer").removeAttribute('disabled')
-    }
-
-    namespace.handleClicks = {
-        btnBuzzer: () => namespace.onBuzzerClick(),
-        btnReset: () => namespace.refs.buzzerRef.set(''),
-        btnAdminLogin: () => namespace.adminLogin()
     }
 
     namespace.adminLogin = () => {
@@ -47,23 +82,13 @@ var fire_buzzer = fire_buzzer || ((namespace) => {
         }).catch(namespace.handleErrors);
     }
 
-    namespace.onBuzzerClick = () => {
-        const name = document.getElementById('txtName').value || "Unknown";
-        namespace.refs.buzzerRef.set(name);
-    }
-
     namespace.activateResetButton = () => {
         document.getElementById('btnReset').classList.remove("hiddenButton");
     }
 
     namespace.onBuzzerChange = (snapshot) => {
-        const buzzerValue = snapshot.val();
-        console.log(buzzerValue);
-        if (buzzerValue) {
-            namespace.disableBuzzer();
-        } else {
-            namespace.enableBuzzer();
-        }
+        namespace.buzzerValue = snapshot.val();
+        namespace.revalidateBuzzerState();
     }
 
     namespace.onLoad = () => {

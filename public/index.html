@@ -42,6 +42,19 @@
       border: none;
       transition: all 0.4s ease 0s;
       text-align: center;
+      margin-top: 1rem;
+    }
+
+    #txtName {
+      margin-top: 1rem;
+    }
+
+    #btnReset {
+      margin-top: 1rem;
+    }
+
+    #btnAdminLogin {
+      margin-top: 1rem;
     }
 
     #btnBuzzer:hover:not(:disabled) {
@@ -132,10 +145,10 @@
   <div id="message">
     <h2>Fire-Buzzer</h2>
     <div style="display: flex; justify-content: center; align-items: center;">
-      <input type="text" id="txtName"></input>
+      <input type="text" id="txtName" placeholder="Enter your name"></input>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
-      <button id="btnBuzzer">Buzzer</button>
+      <button id="btnBuzzer" disabled="true">Buzzer</button>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
       <button id="btnReset" class="hiddenButton">Reset Buzzer</button>
@@ -143,6 +156,7 @@
     <div style="display: flex; justify-content: center; align-items: center;">
       <button id="btnAdminLogin">Admin Login</button>
     </div>
+  </div>
     <script>
       document.addEventListener('DOMContentLoaded', function () {
         // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
