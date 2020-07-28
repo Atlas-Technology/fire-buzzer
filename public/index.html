@@ -29,6 +29,10 @@
       padding: 0;
     }
 
+    #appName {
+      flex-grow: 1;
+    }
+
     #btnBuzzer {
       color: #fff !important;
       text-transform: uppercase;
@@ -46,14 +50,6 @@
     }
 
     #txtName {
-      margin-top: 1rem;
-    }
-
-    #btnReset {
-      margin-top: 1rem;
-    }
-
-    #btnAdminLogin {
       margin-top: 1rem;
     }
 
@@ -143,7 +139,11 @@
 
 <body>
   <div id="message">
-    <h2>Fire-Buzzer</h2>
+    <div style="display: flex; align-items: baseline;">
+      <h2 id="appName">Fire-Buzzer</h2>
+      <button id="btnAdminLogin">Admin Login</button>
+      <button id="btnReset" class="hiddenButton">Reset Buzzer</button>
+    </div>
     <div style="display: flex; justify-content: center; align-items: center;">
       <input type="text" id="txtName" placeholder="Enter your name"></input>
     </div>
@@ -151,10 +151,7 @@
       <button id="btnBuzzer" disabled="true">Buzzer</button>
     </div>
     <div style="display: flex; justify-content: center; align-items: center;">
-      <button id="btnReset" class="hiddenButton">Reset Buzzer</button>
-    </div>
-    <div style="display: flex; justify-content: center; align-items: center;">
-      <button id="btnAdminLogin">Admin Login</button>
+      <p id="buzzerWinner"></p>
     </div>
   </div>
     <script>
